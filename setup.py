@@ -29,9 +29,13 @@ install_requires = [
     'ipython-sql==0.3.8',
     'requests',
     'astor',
-    'pandas==0.22.0',
+    'pandas>=0.22.0',
     'autovizwidget',
-    'thrift-sasl==0.2.1'
+    'thrift-sasl>=0.2.1',
+    'airflow',
+    'mysql-connector-python-rf',
+    'nbdime',
+    'gitpython'
 ]
 
 setup(name=NAME,
