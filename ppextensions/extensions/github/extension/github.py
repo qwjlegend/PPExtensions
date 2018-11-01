@@ -11,13 +11,14 @@ import git
 import base64
 import os
 
-LOCAL_REPO_FOLDER = "Private Sharing"
 USER_HOME_PATH_PREFIX = "/home/" + getuser() + "/"
+
+NOTEBOOK_STARTUP_FOLDER = ""
+LOCAL_REPO_FOLDER = "Github Sharing"
 LOCAL_REPO_PREFIX = USER_HOME_PATH_PREFIX + LOCAL_REPO_FOLDER
-GITHUB_URL_PREFIX = "https://github.paypal.com/"
-GITHUB_TOKEN_PATH = USER_HOME_PATH_PREFIX + ".githubtoken"
+GITHUB_URL_PREFIX = "https://github.com/"
 GITHUB_API_PREFIX = GITHUB_URL_PREFIX + "api/v3"
-GITHUB_WHITELIST = "/etl/LVS/dmetldata11/scaas/scheduler/airflow_home_mount/whitelist/git_whitelist.txt"
+GITHUB_TOKEN = ""
 
 
 class PrivateGitHandler(IPythonHandler):
