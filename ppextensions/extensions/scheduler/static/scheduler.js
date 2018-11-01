@@ -2,6 +2,7 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
 
     var ScheduleOperation = function () {
         this.base_url = Jupyter.notebook_list.base_url;
+        this.contents = Jupyter.notebook_list.contents;
         this.bind_events();
     };
 
@@ -9,7 +10,7 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
 
     ScheduleOperation.prototype.bind_events = function () {
         var that = this;
-        $('#schedule_button').click($.proxy(that.schedule_selected, this));
+        $('.schedule-button').click($.proxy(that.schedule_selected, this));
     };
 
 
@@ -60,7 +61,7 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
         var start_time = $('<input type="time" id="time">').val("00:00");
         var start_date = $('<input type="date" id="date">').val(new Date().toISOString().split('T')[0]);
         var end_after = $('<select id= "end"></select>');
-        var endafterList = ['1 time', '2 times', '3 times', '4 times', '5 times', '10 times'];
+        var endafterList = ['1 time', '2 times', '3 times', '4 times', '5 times', '10 times', '50 times'];
         $.each(endafterList, function(i, el){end_after.append(new Option(el, el));});
 
         var schedule_part = $('<div/>')
@@ -177,7 +178,8 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
                                         class: "btn-primary",
                                         click:  function(){
                                                 //call delete flask service
-                                                $.get('/scheduler/delete?dag_id=' + username + '_' + notebookName, function(){schedule();});
+                                                var url = utils.url_path_join(that.base_url, '/scheduler/delete') 
+                                                $.post(url + '?dag_id=' + username + '_' + notebookName, function(){schedule();});
                                         }}
                                     }
                                 });
@@ -186,7 +188,6 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
                                 schedule();
                         }
                         function schedule(){
-                            console.log(notebookName);
                                 var settings = {
                                         data:{
                                                 'notebook_name': notebookName,
@@ -202,9 +203,12 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
                                                 if(picked == 'True'){
                                                         if (push_to_git.is(':checked')){
                                                                 ispushed = 'Y';
-                                                                //that.github_selected();//re-enable github selected
+                                                                that.selected = selected;
+                                                                that.notebook_path = notebookPath;
+                                                                that.github_selected();
                                                         }
-                                                        $.get('/scheduler/set_dag?notebook_name=' + notebookName + '&ispushed=' + ispushed + '&interval=' + interval + '&start_time=' + sttime);
+							var url = utils.url_path_join(that.base_url, 'scheduler/set_dag');
+                                                        $.get(url + '?notebook_name=' + notebookName + '&ispushed=' + ispushed + '&interval=' + interval + '&start_time=' + sttime);
                                                         $('a[href=#scheduledjobs]').click().tab('show');
                                                         spin.modal('hide');
                                                 }

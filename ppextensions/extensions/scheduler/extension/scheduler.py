@@ -10,49 +10,15 @@ import datetime
 import os
 import json
 import time
-from sqlalchemy import create_engine
+from nbapi import cm_connection
 
-CONNECTION_STRING = "mysql+mysqlconnector://root:123456@jupy-weqian.pp-devcos-cdp-bdpe.us-central1.gcp.dev.paypalinc.com:3306/airflow_jupytercon"
-AIRFLOW_HOME_MOUNT = "/Users/weqian/Documents/Work/Dev/airflow/airflow_home_mount/"
-DAG_TEMPLATE = "/Users/weqian/Documents/Work/Dev/airflow/conf/dag_template.py"   #"/etl/LVS/dmetldata11/scaas/pp_notebooks/conf/dag_template.py"
-VAR_TEMPLATE = "/Users/weqian/Documents/Work/Dev/airflow/conf/var_template.py" #"/etl/LVS/dmetldata11/scaas/pp_notebooks/conf/var_template.py"
+AIRFLOW_HOME_MOUNT = "/etl/LVS/dmetldata11/scaas/scheduler/airflow_home_mount/"
+DAG_TEMPLATE = "/etl/LVS/dmetldata11/scaas/ppextensions/ppextensions/extensions/scheduler/template/dag_template.py"
+VAR_TEMPLATE = "/etl/LVS/dmetldata11/scaas/ppextensions/ppextensions/extensions/scheduler/template/var_template.py"
+SCHEDULER_STATIC_FILE_PATH = "/etl/LVS/dmetldata11/scaas/ppextensions/ppextensions/extensions/scheduler/static"
 
 class SchedulerHandler(IPythonHandler):
-    engine = create_engine(CONNECTION_STRING)
-
-    # def initialize(self, notebook_name, notebook_path, username, email_list_failure, email_list_success, start_time, end_time, interval):
-    #         self.notebook_name = notebook_name
-    #         self.notebook_path = notebook_path
-    #         self.username = username
-    #         self.email_list_failure = email_list_failure
-    #         self.email_list_success = email_list_success
-    #         self.start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
-    #         itv_num, itv_unit = interval.split(' ')
-    #         if itv_unit == 'hours':
-    #             delta = datetime.timedelta(hours=int(itv_num))
-    #             self.interval = "timedelta(hours={})".format(int(itv_num))
-    #         elif itv_unit == 'days':
-    #             delta = datetime.timedelta(days=int(itv_num))
-    #             self.interval = "timedelta(days={})".format(int(itv_num))
-    #         elif itv_unit == 'months':
-    #             adjusttime = self.start_time + relativedelta(months=int(itv_num))
-    #             delta = adjusttime - self.start_time
-    #             self.interval = "timedelta(days={})".format(int(str(adjusttime - self.start_time).split('days')[0].strip()))
-    #         elif itv_unit == 'weeks':
-    #             delta = datetime.timedelta(weeks=int(itv_num))
-    #             self.interval = "timedelta(weeks={})".format(int(itv_num))
-    #         self.start_time -= delta
-    #
-    #         ed_num, ed_unit = end_time.split(' ')
-    #         if ed_unit == 'hours':
-    #             self.end_time = self.start_time + datetime.timedelta(hours=int(ed_num))
-    #         elif ed_unit == 'days':
-    #             self.end_time = self.start_time + datetime.timedelta(days=int(ed_num))
-    #         elif ed_unit == 'months':
-    #             self.end_time = self.start_time + relativedelta(months=int(ed_num))
-    #         elif ed_unit == 'weeks':
-    #             self.end_time = self.start_time + datetime.timedelta(weeks=int(ed_num))
-
+    engine = cm_connection.getairflowcon()
     @staticmethod
     def init_dag(dag_desti):
         copyfile(DAG_TEMPLATE, dag_desti)
@@ -121,7 +87,7 @@ class SchedulerHandler(IPythonHandler):
             return True
 
     def find_dag_desti(self, dag):
-        dag_desti = AIRFLOW_HOME_MOUNT + "dags/" + "dag_" + dag + ".py"
+        dag_desti = AIRFLOW_HOME_MOUNT + "dags_celery/" + "dag_" + dag + ".py"
         var_desti = AIRFLOW_HOME_MOUNT + "variables/" + "var_" + dag + ".py"
         return dag_desti, var_desti
 
@@ -208,8 +174,6 @@ class SchedulerHandler(IPythonHandler):
         itv = self.get_dag_interval(dagid)
         self.configure(username, notebook_name, notebook_path, emails_failure, emails_success, start, extend_from_start, itv)
 
-
-
     def update_dag(self, dag_id, interval, start_time):
         start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
         with self.engine.begin() as con:
@@ -240,7 +204,6 @@ class SchedulerHandler(IPythonHandler):
 
     @staticmethod
     def is_whitelist(username):
-        return True
         with open(AIRFLOW_HOME_MOUNT + "whitelist/whitelist.txt") as f:
             names = [name.strip() for name in f.readlines()]
             if username in names:
@@ -255,7 +218,7 @@ class SchedulerHandler(IPythonHandler):
     def configure(self, username, notebook_name, notebook_path, emails_failure, emails_success, start_time, end_time, interval):
         email_list_failure = [a.strip() for a in emails_failure.split(',') if a] if emails_failure != "*" else []
         email_list_success = [a.strip() for a in emails_success.split(',') if a] if emails_failure != "*" else []
-        dag_desti = AIRFLOW_HOME_MOUNT + "dags/dag_" + notebook_name + ".py"
+        dag_desti = AIRFLOW_HOME_MOUNT + "dags_celery/dag_" + notebook_name + ".py"
         var_desti = AIRFLOW_HOME_MOUNT + "variables/var_" + notebook_name + ".py"
         self.init_var(var_desti, notebook_name, notebook_path, username, email_list_failure, email_list_success, start_time, end_time, interval)
         self.init_dag(dag_desti)
@@ -283,7 +246,8 @@ class CreateDagHandler(SchedulerHandler):
 class GetDagHandler(SchedulerHandler):
     def get(self):
         daglist = self.get_dag(getpass.getuser())
-        self.render('daginfo.html', daglist=daglist)
+        base_url = self.get_argument('base_url')
+        self.render('daginfo.html', base_url=base_url, daglist=daglist)
 
 
 class SetDagHandler(SchedulerHandler):
@@ -295,7 +259,6 @@ class SetDagHandler(SchedulerHandler):
         dag_id = getpass.getuser() + '_' + notebook_name
         self.set_dag(dag_id, ispushed, interval, start_time)
         self.set_status(204, "")
-        #self.redirect((url_for('getdaginfo', _external=True, _scheme='https'))) #find url_for equivalent
 
 
 class DeleteDagHandler(SchedulerHandler):
@@ -405,7 +368,7 @@ def load_jupyter_server_extension(nb_server_app):
         (r'/scheduler/add_to_whitelist', AddToWhitelistHandler),
         (r'/scheduler/can_schedule', CanScheduleHandler),
     ]
-    web_app.settings['template_path'] = '/Users/weqian/Documents/Work/Dev/Paypalnotebooks/nbextension/static'
+    web_app.settings['template_path'] = SCHEDULER_STATIC_FILE_PATH 
     base_url = web_app.settings['base_url']
     handlers = [(url_path_join(base_url, h[0]), h[1]) for h in handlers]
 

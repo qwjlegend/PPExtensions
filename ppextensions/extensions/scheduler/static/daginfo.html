@@ -20,7 +20,7 @@
             <td>{{ dag[4] }}</td>
             <td>{{ dag[5] }}</td>
             <td>
-                <form id="{{ dag[0] }}del" action="/scheduler/delete_dag?dag_id={{ dag[0] }}" method="POST">
+                <form id="{{ dag[0] }}del" action="{{ base_url }}scheduler/delete_dag?dag_id={{ dag[0] }}" method="POST">
                     <button  type="submit" class="btn btn-primary">Remove</button>
                     {% raw xsrf_form_html() %}
                </form>
