@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab20672f-014b-43c1-ab37-efc8e76256a1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/extension/scheduler.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/extension/template.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/nbextension.egg-info/PKG-INFO" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/nbextension.egg-info/SOURCES.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/nbextension.egg-info/dependency_links.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/nbextension.egg-info/requires.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/nbextension.egg-info/top_level.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/static/daginfo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/static/editdag.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/static/scheduler.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/static/schedulermain.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppextensions/nbextension/static/template.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppextensions/extensions/github/extension/github.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppextensions/extensions/github/extension/github.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,11 +13,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="github.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="github.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ppextensions/extensions/github/extension/github.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+            <state relative-caret-position="600">
+              <caret line="40" column="29" lean-forward="true" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scheduler.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ppextensions/extensions/scheduler/extension/scheduler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2894">
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -41,6 +41,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/ppextensions/extensions/github/extension/github.py" />
+      </list>
+    </option>
+  </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsGulpfileManager">
@@ -48,10 +55,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="47" />
-    <option name="y" value="23" />
-    <option name="width" value="1633" />
-    <option name="height" value="1027" />
+    <option name="x" value="3600" />
+    <option name="y" value="-337" />
+    <option name="width" value="1720" />
+    <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -107,6 +114,14 @@
               <item name="extensions" type="462c0819:PsiDirectoryNode" />
               <item name="scheduler" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="PPExtensions" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PPExtensions" type="462c0819:PsiDirectoryNode" />
+              <item name="ppextensions" type="462c0819:PsiDirectoryNode" />
+              <item name="extensions" type="462c0819:PsiDirectoryNode" />
+              <item name="scheduler" type="462c0819:PsiDirectoryNode" />
+              <item name="extension" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -145,7 +160,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="47" y="23" width="1633" height="1027" extended-state="0" />
+    <frame x="3600" y="-337" width="1720" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -157,7 +172,7 @@
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
       <window_info anchor="bottom" id="Terminal" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2495286" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23659118" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="SciView" />
@@ -182,8 +197,17 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ppextensions/extensions/github/extension/github.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        <state relative-caret-position="600">
+          <caret line="40" column="29" lean-forward="true" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ppextensions/extensions/scheduler/extension/scheduler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2894">
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
