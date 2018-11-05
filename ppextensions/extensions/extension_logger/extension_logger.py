@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
 
+
 logger_name = "extension_logger"
 logger = logging.getLogger(logger_name)
 logger.setLevel(logging.DEBUG)

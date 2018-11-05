@@ -1,5 +1,4 @@
 define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/utils', 'jquery'], function (Jupyter, dialog, notebooklist, utils, $) {
-
     var GithubOperation = function () {
         this.base_url = Jupyter.notebook_list.base_url;
         this.bind_events();
@@ -21,26 +20,38 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
         var branch = $('<select id="branch" class="form-control">');
         branch.append('<option value="" disabled selected>Please select a branch</option>');
 
+        function initializeDropdown(res){
+             for (var rp in res) {repo.append(new Option(rp, rp));}
+             repo.change(function () {
+                var branches = res[repo.val()];
+                branch.empty();
+                branch.append('<option value="" disabled selected>Please select a branch</option>');
+                $.each(branches, function (i, el) {
+                    branch.append(new Option(el, el));
+                });
+             });
+        }
+
+        var url = utils.url_path_join(that.base_url, '/github/private_github_get_repo');
         var settings = {
             method: 'GET',
-            success: function (res) {
-		var res = JSON.parse(res);
-                for (var rp in res) {repo.append(new Option(rp, rp));} 
-                repo.change(function () {
-                    var branches = res[repo.val()];
-                    branch.empty();
-                    branch.append('<option value="" disabled selected>Please select a branch</option>');
-                    $.each(branches, function (i, el) {
-                        branch.append(new Option(el, el));
-                    });
-                });
+            cache: true,
+            success: function (result) {
+                sessionStorage.setItem(url, result);
+		        var res = JSON.parse(result);
+                initializeDropdown(res);
             },
             error: function (res) {
-                console.log(res.responseText)
-            },
+                console.log(res);
+            }
         };
-        var url = utils.url_path_join(that.base_url, '/github/private_github_get_repo');
-        utils.ajax(url, settings);
+        if (sessionStorage.getItem(url) != null){
+            var res = JSON.parse(sessionStorage.getItem(url));
+            initializeDropdown(res);
+        }else{
+            utils.ajax(url, settings);
+        }
+
         var commit_msg = $('<textarea class="form-control" placeholder="Enter Commit Message" id="msg"></textarea>').css('margin-left', '12px');
         var repo_div = $('<div class="form-group"></div>')
             .append('<label for="repo"><b>Github Repository:</b></label>')
@@ -57,7 +68,7 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
             .append(text_div);
 
         dialog.modal({
-            title: "Push to private Github",
+            title: "Push to Github",
             body: dialog_body,
             buttons: {
                 Push: {
@@ -119,11 +130,11 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
         var that = this;
 
         var dialog_body = $('<div/>')
-            .append($('<label for="github_repo_url"><b>Please enter the github repo url of the notebook: (This option is equivalent to normal git pull command)</b></label>'))
+            .append($('<label for="github_repo_url"><b>Please enter the github repo url of the notebook: </b></label>'))
             .append($('<input id="gru" class= "form-control" type="text" placeholder="Enter Github Repo Url" name="github_repo_url" required>'))
 
         dialog.modal({
-            title: "Pull from private Github",
+            title: "Pull from Github",
             body: dialog_body,
             buttons: {
                 Pull: {
@@ -154,7 +165,7 @@ define(['base/js/namespace', 'base/js/dialog', 'tree/js/notebooklist', 'base/js/
                                 spin.modal('hide');
                                 dialog.modal({
                                     title: 'Pull failed!',
-                                    body: $('<div/>').text(res),
+                                    body: $('<div/>').text(res.responseText),
                                     buttons: {
                                         OK: {class: "btn-primary"}
                                     }
