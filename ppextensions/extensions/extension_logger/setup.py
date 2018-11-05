@@ -5,8 +5,8 @@ import re
 from distutils.core import setup
 
 DESCRIPTION = "PayPal github extension for notebooks."
-NAME = "scheduler"
-PACKAGES = ['extension']
+NAME = "extension logger"
+PACKAGES = ['']
 AUTHOR = "PayPal Notebooks Development Team"
 LICENSE = 'PayPal Inc Internal Use only'
 
