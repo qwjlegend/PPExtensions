@@ -3,7 +3,7 @@ from notebook.base.handlers import IPythonHandler
 from git import Repo, exc
 from urllib.parse import urlparse, unquote
 from pathlib import Path
-from extension_logger import logger
+from ppextensions.extensions import extension_logger
 
 import requests
 import json
@@ -37,7 +37,7 @@ class PrivateGitHandler(IPythonHandler):
             git_instance.add('.')
             git_instance.commit("-m", commit_message)
         except Exception as e:
-            logger.error(str(e))
+            extension_logger.error(str(e))
 
     @staticmethod
     def git_pull(repo_instance, branch="master"):
