@@ -37,7 +37,7 @@ class PrivateGitHandler(IPythonHandler):
             git_instance.add('.')
             git_instance.commit("-m", commit_message)
         except Exception as e:
-            extension_logger.error(str(e))
+            extension_logger.logger.error(str(e))
 
     @staticmethod
     def git_pull(repo_instance, branch="master"):
