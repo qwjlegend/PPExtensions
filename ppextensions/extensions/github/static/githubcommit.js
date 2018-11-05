@@ -5,14 +5,12 @@ define(['base/js/namespace', 'base/js/dialog', 'base/js/utils', 'jquery'], funct
         icon: 'fa-github',
         help_index: '',
         handler: function (env) {
-            var re = /^\/notebooks.*?notebooks(.*?)$/;
+            var re = /^\/notebooks(.*?)$/;
             var filepath = window.location.pathname.match(re)[1];
             var repo = filepath.substring(1, filepath.lastIndexOf("/"));
             var filename = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.length);
-            var dialog_body = $('<div>Are you sure you want to commit this notebook?</div>')
+            var dialog_body = $('<div>Are you sure you want to commit this notebook?</div>');
 
-	    console.log(repo);
-	    console.log(filename);
             dialog.modal({
                 title: "Commit Notebook",
                 body: dialog_body,
@@ -26,7 +24,7 @@ define(['base/js/namespace', 'base/js/dialog', 'base/js/utils', 'jquery'], funct
                             };
                             var settings = {
                                 method: 'POST',
- 				data: payload,
+ 				                data: payload,
                                 success: function (res) {
                                     spin.modal('hide');
                                     dialog.modal({
@@ -41,7 +39,7 @@ define(['base/js/namespace', 'base/js/dialog', 'base/js/utils', 'jquery'], funct
                                     spin.modal('hide');
                                     dialog.modal({
                                         title: "Commit Failed",
-                                        body: $('<div/>').text(res.responseText),
+                                        body: $('<div/>').text(res),
                                         button: {
                                             OK: {'class': 'btn-primary'}
                                         }
@@ -62,18 +60,18 @@ define(['base/js/namespace', 'base/js/dialog', 'base/js/utils', 'jquery'], funct
                 keyboard_manager: env.notebook.keyboard_manager
             });
         }
-    }
+    };
 
     function _on_load() {
 
-        console.info('Loaded Jupyter extension: Git Commit')
+        console.info('Loaded Jupyter extension: Git Commit');
 
-        var action_name = Jupyter.actions.register(git_commit, 'commit', 'git')
+        var action_name = Jupyter.actions.register(git_commit, 'commit', 'git');
 
         Jupyter.toolbar.add_buttons_group([action_name])
 
     }
 
     return {load_ipython_extension: _on_load};
-})
+});
 
