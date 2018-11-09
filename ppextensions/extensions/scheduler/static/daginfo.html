@@ -2,25 +2,23 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Job Name</th>
+            <th scope="col">Notebook Name</th>
             <th scope="col">Last Run Time</th>
             <th scope="col">Last Run Status</th>
             <th scope="col">Last Run Duration</th>
             <th scope="col">Next Scheduled Run</th>
-            <th scope="col">Pushed To Github(Y/N)</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
-        {% for dag in daglist %}
+        {% for dag in dag_list %}
         <tr>
             <td><a href='#' onclick="redirect();">{{ dag[0] }}</a></td>
             <td>{{ dag[1] }}</td>
             <td>{{ dag[2] }}</td>
             <td>{{ dag[3] }}</td>
             <td>{{ dag[4] }}</td>
-            <td>{{ dag[5] }}</td>
             <td>
-                <form id="{{ dag[0] }}del" action="{{ base_url }}scheduler/delete_dag?dag_id={{ dag[0] }}" method="POST">
+                <form id="{{ dag[0] }}del" action="{{ base_url }}scheduler/delete_dag?notebook_name={{ dag[0] }}" method="POST">
                     <button  type="submit" class="btn btn-primary">Remove</button>
                     {% raw xsrf_form_html() %}
                </form>
@@ -41,7 +39,7 @@
 </div>
 
 <script>
-{% for dag in daglist %}
+{% for dag in dag_list %}
   $('#{{ dag[0] }}del').submit(function(e){
     e.preventDefault();
     var result = confirm("Are you sure you want to delete?");
@@ -56,16 +54,15 @@
 {% end %}
 
 
-{% for dag in daglist %}
+{% for dag in dag_list %}
   $('#{{ dag[0] }}edt').click(function() {
-      $('#popup_place_holder').load('scheduler/edit_dag?dag_id={{ dag[0] }}');
+      $('#popup_place_holder').load('{{ base_url }}scheduler/edit_dag?notebook_name={{ dag[0] }}&base_url={{ base_url }}');
   });
 {% end %}
 
   function redirect(){
-    baseurl = window.location.origin;
-    window.open(baseurl + "/notebooks/services/naas_airflow_webserver/admin")
-  };
+    window.open("http://localhost:8080")
+  }
 </script>
 
 

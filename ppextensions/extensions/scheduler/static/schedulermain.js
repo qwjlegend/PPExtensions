@@ -35,7 +35,7 @@ define(["jquery",
             "              </div>\n" +
             "            </div>\n" +
             "          </div>\n" +
-            "        </div>")
+            "        </div>");
 
 
         scheduler_html.insertAfter($("button[title|='Edit selected']"));
@@ -43,18 +43,18 @@ define(["jquery",
         $("#tab_content > #tabs").append(scheduler_tab_html);
 
         var schedule = new scheduleoperation.ScheduleOperation();
+        var url_get_dag = utils.url_path_join(Jupyter.notebook_list.base_url, '/scheduler/get_dag?base_url=' + Jupyter.notebook_list.base_url);
 
         $('#refresh_schedule_list, .scheduled_jobs').click(function () {
                     $("#schedule_list_placeholder").load(url_get_dag);
             });
 
-        var url_get_dag = utils.url_path_join(Jupyter.notebook_list.base_url, '/scheduler/get_dag?base_url=' + Jupyter.notebook_list.base_url);
         var _selection_changed = Jupyter.notebook_list.__proto__._selection_changed;
 
         Jupyter.notebook_list.__proto__._selection_changed = function(){
             _selection_changed.apply(this);
             selected = this.selected;
-            if(selected.length == 1){
+            if(selected.length == 1 && selected[0].type != "directory"){
                 $('.schedule-button').css('display', 'inline-block');}
             else{
                 $('.schedule-button').css('display', 'none');
