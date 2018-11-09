@@ -12,7 +12,7 @@ import json
 import time
 from sqlalchemy import create_engine
 
-CONNECTION_STRING = "mysql+mysqlconnector://root:123456@jupy-weqian.pp-devcos-cdp-bdpe.us-central1.gcp.dev.paypalinc.com:3306/airflow_jupytercon"
+CONNECTION_STRING = ""
 AIRFLOW_HOME_MOUNT = "/Users/weqian/Documents/Work/Dev/airflow/airflow_home_mount/"
 DAG_TEMPLATE = "/Users/weqian/Documents/Work/Dev/airflow/conf/dag_template.py"   #"/etl/LVS/dmetldata11/scaas/pp_notebooks/conf/dag_template.py"
 VAR_TEMPLATE = "/Users/weqian/Documents/Work/Dev/airflow/conf/var_template.py" #"/etl/LVS/dmetldata11/scaas/pp_notebooks/conf/var_template.py"
