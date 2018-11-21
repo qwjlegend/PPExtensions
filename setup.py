@@ -31,10 +31,8 @@ install_requires = [
     'astor',
     'pandas>=0.22.0',
     'autovizwidget',
-    'thrift-sasl>=0.2.1',
-    'airflow',
-    'mysql-connector-python-rf',
     'nbdime',
+    'airflow',
     'gitpython'
 ]
 
