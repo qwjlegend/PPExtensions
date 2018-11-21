@@ -1,0 +1,14 @@
+#!/bin/sh
+cd ppextensions/extensions/github
+jupyter nbextension install static
+cd ../scheduler
+jupyter nbextension install static
+
+jupyter nbextension enable static/github --section='tree'
+jupyter nbextension enable static/githubmain --section='tree'
+jupyter nbextension enable static/githubcommit --section='notebook'
+jupyter nbextension enable static/schedulermain --section='tree'
+jupyter nbextension enable static/scheduler --section='tree'
+
+jupyter serverextension enable --user ppextensions.extensions.github.github
+jupyter serverextension enable --user ppextensions.extensions.scheduler.scheduler
