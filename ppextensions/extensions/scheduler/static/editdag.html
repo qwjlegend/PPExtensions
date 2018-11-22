@@ -108,9 +108,8 @@
    $('#confirmedit').click(function(e){
        e.preventDefault();
        var start = start_on.val() + ' ' + start_at.val() + ":00";
-
-       var num_of_runs = 1;
-       if (runs.val() != null){
+       var num_of_runs = "None";
+       if (runs.val() != null && runs.val() !== "None"){
            num_of_runs = parseInt(runs.val());
        }
        var now = new Date();

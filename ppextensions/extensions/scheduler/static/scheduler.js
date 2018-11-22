@@ -20,7 +20,7 @@ define(["base/js/namespace", "base/js/dialog", "tree/js/notebooklist", "base/js/
     }
 
     // Part1 Schedule
-    var lst = Array(20).fill(0).map((i, j) => j + 4);
+    var lst = Array(20).fill(0).map((i, j) => j + 1);
     var every_num = $("<select id= \"num\"></select>");
     $.each(lst, function (i, el) { every_num.append(new Option(el, el)); });
     var every_unit = $("<select id=\"unit\"></select>");

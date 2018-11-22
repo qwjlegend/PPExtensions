@@ -11,7 +11,7 @@ import os
 
 GITHUB_URL_PREFIX = "https://github.com/"
 GITHUB_API_PREFIX = "https://api.github.com"
-GITHUB_TOKEN = os.getenv('githubtoken','')
+GITHUB_TOKEN = os.getenv('githubtoken', "")
 NOTEBOOK_STARTUP_PATH = os.getcwd() + "/"
 LOCAL_REPO_FOLDER = "Sharing"
 LOCAL_REPO_PREFIX = NOTEBOOK_STARTUP_PATH + LOCAL_REPO_FOLDER

@@ -31,8 +31,8 @@ install_requires = [
     'astor',
     'pandas>=0.22.0',
     'autovizwidget',
-    'nbdime',
     'airflow',
+    'nbdime',
     'gitpython'
 ]
 
