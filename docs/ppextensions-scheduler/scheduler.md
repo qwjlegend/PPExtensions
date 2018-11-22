@@ -22,6 +22,11 @@ bash PPExtension/build/extension_init.sh
 
 This command will automatically install all frontend and backend Jupyter extensions we provide.
 
+<<<<<<< HEAD
+=======
+Please see pre-requisites below for other necessary configuration.
+
+>>>>>>> dev
 Pre Requisites
 ---
 **Configure Airflow**

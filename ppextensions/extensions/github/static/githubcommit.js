@@ -20,17 +20,17 @@ define(["base/js/namespace", "base/js/dialog", "base/js/utils", "jquery"], funct
           Commit: {
             class: "btn-primary",
             click: function () {
-              var spin = dialog.modal({
-                title: "Committing...",
-                body: $("<div style=\"text-align:center\"><i class=\"fa fa-spinner fa-spin\" style=\"font-size:100px\"></i></div>")
-                  .append($("<div style=\"text-align:center\"><strong>Notebook is being committed to local github repository, please wait for a few seconds.</strong></div>"))
-              });
               var payload = {
                 "repo": repo,
                 "filename": filename,
                 "option": $("input[name=optradio]:checked", "#option").val()
               };
               if (repo === "/"){ alert("Please commit inside local repo!"); return; }
+              var spin = dialog.modal({
+                title: "Committing...",
+                body: $("<div style=\"text-align:center\"><i class=\"fa fa-spinner fa-spin\" style=\"font-size:100px\"></i></div>")
+                  .append($("<div style=\"text-align:center\"><strong>Notebook is being committed to local github repository, please wait for a few seconds.</strong></div>"))
+              });
               var settings = {
                 method: "POST",
                 data: payload,
