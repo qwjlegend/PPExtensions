@@ -1,7 +1,7 @@
 #!/bin/sh
-cd ~/PPExtensions/ppextensions/extensions/github
+cd ppextensions/extensions/github
 jupyter nbextension install static
-cd ~/PPExtensions/ppextensions/extensions/scheduler
+cd ppextensions/extensions/scheduler
 jupyter nbextension install static
 
 jupyter nbextension enable static/github --section='tree'

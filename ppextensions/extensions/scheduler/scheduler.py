@@ -3,7 +3,8 @@ from notebook.base.handlers import IPythonHandler
 from shutil import copyfile
 from sqlalchemy import create_engine
 from airflow import settings, models
-from ppextensions.extensions.extension_logger import extension_logger
+from airflow.utils.db import provide_session
+from ppextensions.extensions.extension_logger.extension_logger import logger
 
 import datetime
 import configparser
@@ -20,7 +21,6 @@ SCHEDULER_STATIC_FILE_PATH = os.path.dirname(os.path.abspath(__file__)) + "/stat
 
 
 class SchedulerHandler(IPythonHandler):
-    session = settings.Session()
     engine = create_engine(CONNECTION_STRING)
     cf = configparser.ConfigParser()
 
@@ -41,13 +41,15 @@ class SchedulerHandler(IPythonHandler):
         delta = datetime.timedelta(**dict([(itv[1], int(itv[0]))]))
         return start, delta
 
-    def dag_info(self, dag_inst):
+    @staticmethod
+    @provide_session
+    def dag_info(dag_inst, session):
         interval = dag_inst.schedule_interval
         notebook_name = dag_inst.dag_id.split('_')[1]
         task = dag_inst.get_task("notebook_task")
         start_date = task.start_date
         end_date = task.end_date
-        task_instances = task.get_task_instances(self.session, start_date=start_date, end_date=end_date)
+        task_instances = task.get_task_instances(session, start_date=start_date, end_date=end_date)
         if len(task_instances) != 0:
             for ti in task_instances[::-1]:
                 dag_run = dag_inst.get_dagrun(execution_date=ti.execution_date)

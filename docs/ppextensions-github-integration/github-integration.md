@@ -3,12 +3,12 @@
 # About
 A Jupyter extension to integrate notebooks with Github. This extension simplifies version controlling, sharing and resolving merge conflicts of notebooks.
 
-# Getting Started <a id='getstart'></a>
+### (Method 1) Local Environment Setup
 
-Install Github Extension
----
+#### Install Github Extension
+
 ~~~
-cd PPExtension/ppextension/extensions/github
+cd PPExtensions/ppextensions/extensions/github
 jupyter nbextension install static
 jupyter nbextension enable static/github --user --section=tree
 jupyter nbextension enable static/githubmain --user --section=tree
@@ -18,13 +18,13 @@ jupyter serverextension enable --user ppextensions.extensions.github.github
 
 Alternatively, if you want to install all extensions in ppextension module
 ~~~
-bash PPExtension/build/extension_init.sh
+cd PPExtensions
+bash build/extension_init.sh
 ~~~
 
 This command will automatically install all frontend and backend Jupyter extensions we provide.
 
-Setup
----
+#### Local Setup
 
 **Register private Github token:** Go to Github website, click `Settings` --> `Developer settings` --> `Personal access tokens` --> `Generate new token`, copy the new token and export that as an environment variable.
 ~~~
@@ -45,14 +45,22 @@ If you want to create a separate repo for sharing the notebooks, go to github we
 **(Optional) Use an existing Github repo for sharing the notebooks**
 Either push to or pull from that repo will create a local workspace in Private Sharing folder in the notebook startup folder.
 
-Push to Github
----
+### (Method 2) Use Docker
+~~~
+docker run --name=demo --link=mysql:db -i -t -e githubtoken=<your github token here> -e githubname=<github user> -e githubemail=<github email> -p 8080:8080 -p 8888:8888 qwjlegend/ppextensions
+
+~~~
+
+Then go to localhost:8888/?token=<jupyter notebook token printed in the command line> to start using notebook with ppextensions.
+
+#### Push to Github
+
 **Push a single notebook to Github:** Select the notebook to be pushed, click `Sharing` --> `Push to Github`, select the repo, branch and type commit messages in the popup, and click on `Push`.
 
 When you push a notebook outside the `Sharing` folder, the notebook will be moved under `Sharing/<Repo Name>/<Notebook Name>` path, and the be pushed to Github.
 When you push a notebook inside the `Sharing` folder, only the "Linked" repo in the dropdown will display in the dropdown.
 
-In the following situation, the push command will fail. 
+In the following situation, the push command will fail: 
 
 ***During a merge:*** Cannot do partial commit during a merge, please choose commit all notebooks option and push. Notice: this operation will push all other notebooks in this repo!
 
@@ -63,11 +71,11 @@ In the following situation, the push command will fail.
 When you push a folder outside the `Sharing` folder, that entire folder will be moved under "Sharing/<Repo Name>" path, and then be pushed to Github.
 
 
-Pull from Github
----
+#### Pull from Github
+
 Click on `Sharing` --> `Pull from Github`, copy the Github repo url and paste that in the input area, then click on `Pull`. 
 
-In the following situations, the pull command will fail.
+In the following situations, the pull command will fail:
 
 ***During a merge:*** You have not conclued your merge(MERGE_HEAD exists). Please, commit your changes before you can merge.
 
@@ -75,12 +83,13 @@ In the following situations, the pull command will fail.
 
 ***Untracked notebook in local:*** Your local changes to the following files would be overwritten by merge: xx.ipynb. Please, commit your changes or stash them before you can merge. Aborting.
 
-Commit
----
+#### Commit
+
 Open up a notebook, click on the Github icon in the tool bar. There are two types of commit:
 
 **Commit one notebook:** This option will be used in most cases. 
-In the following situations, this command will fail.
+
+In the following situations, this command will fail:
 
 ***Worktree clean, nothing to commit***
 
@@ -91,8 +100,8 @@ In the following situations, this command will fail.
 **Commit all notebooks in the same folder:** This option will only be used when a merge conflict is fixed. 
 
 
-Conflict Fix
----
+#### Conflict Fix
+
 When you pull from Github and you local commit is different from remote commit, a conflict will be generated, if the conflict cannot be automatically resolved, you should fix the conflicts.
 
 In the error message, the conflicting files will be displayed. 
