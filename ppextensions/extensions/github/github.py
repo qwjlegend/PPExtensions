@@ -16,6 +16,7 @@ NOTEBOOK_STARTUP_PATH = os.getcwd() + "/"
 LOCAL_REPO_FOLDER = "Sharing"
 LOCAL_REPO_PREFIX = NOTEBOOK_STARTUP_PATH + LOCAL_REPO_FOLDER
 
+
 class PrivateGitHandler(IPythonHandler):
     """
     The base class that has all functions used in private sharing backend handlers.
@@ -47,20 +48,21 @@ class PrivateGitHandler(IPythonHandler):
         except Exception as e:
             self.error_handler(str(e))
         git_instance = repo_instance.git
-        git_instance.add("--a")
+        git_instance.add("-u")
         if not os.path.isdir(to_path):
-            git_instance.commit("-o", "{}".format(file_name), "-m", commit_message)
+            git_instance.add(file_name)
         else:
-            git_instance.commit("-m", commit_message)
+            git_instance.add("--a")
+        git_instance.commit("-m", commit_message)
 
     @staticmethod
     def git_commit_inside(file_name, repo_instance, commit_message, option):
         git_instance = repo_instance.git
-        git_instance.add('--a')
         if option == "single":
-            git_instance.commit("-o", "{}".format(file_name), "-m", commit_message)
+            git_instance.add(file_name)
         else:
-            git_instance.commit("-m", commit_message)
+            git_instance.add("--a")
+        git_instance.commit("-m", commit_message)
 
     @staticmethod
     def get_repo(file_path):
@@ -70,6 +72,8 @@ class PrivateGitHandler(IPythonHandler):
         if parts[0] == LOCAL_REPO_FOLDER:
             repo_name = parts[1] + "/" + parts[2]
             branch = requests.get(GITHUB_API_PREFIX + '/repos/' + repo_name + '/branches', headers=headers)
+            if branch.status_code == 404:
+                repos[repo_name] = ['Branch Not Found!']
             if len(branch.json()) == 0:
                 repos[repo_name] = ['master']
             else:
@@ -80,6 +84,8 @@ class PrivateGitHandler(IPythonHandler):
             for rp in repo:
                 repo_name = rp['full_name']
                 branch = requests.get(GITHUB_API_PREFIX + '/repos/' + repo_name + '/branches', headers=headers)
+                if branch.status_code == 404:
+                    repos[repo_name] = ['Branch Not Found!']
                 if len(branch.json()) == 0:
                     repos[repo_name] = ['master']
                 else:
@@ -126,13 +132,10 @@ class PrivateGitPushHandler(PrivateGitHandler):
             self.git_commit(NOTEBOOK_STARTUP_PATH + file_path, local_repo_file_path, file_name, repo_instance,
                             commit_message)
         except GitCommandError as e:
-            if e.status == 128:
-                self.error_handler("Cannot do partial commit during a merge, please choose commit all notebooks option "
-                                   "and push. Notice: this operation will push all other notebooks in this repo!")
-            elif e.status == 1:
+            if e.status == 1:
                 self.error_handler(e.stdout, iserr=False)
             else:
-                self.error_handler(e.stderr, iserr=False)
+                self.error_handler(e.stderr)
         try:
             push_info = repo_instance.remote().push("master:" + branch)
             assert push_info[0].flags in [512, 256, 2, 1]
@@ -199,13 +202,11 @@ class PrivateGitCommitHandler(PrivateGitHandler):
         try:
             self.git_commit_inside(file_name, repo_instance, commit_message, option)
             self.finish("Commit Success!")
-        except Exception as e:
-            if e.status == 128:
-                self.error_handler("Cannot do partial commit during a merge, please choose commit all notebooks option "
-                                   "and push. Notice: this operation will push all other notebooks in this repo!")
+        except GitCommandError as e:
+            if e.status == 1:
+                self.error_handler(e.stdout)
             else:
-                err = e.stdout.replace("\n","<br/>")
-                self.error_handler(err)
+                self.error_handler(e.stderr)
 
 
 def load_jupyter_server_extension(nb_server_app):

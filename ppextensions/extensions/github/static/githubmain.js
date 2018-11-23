@@ -11,10 +11,10 @@ define(["jquery",
             "                  </button>\n" +
             "                  <ul id=\"new-menu\" class=\"dropdown-menu\">\n" +
             "                      <li role=\"presentation\" id=\"privategithubpush\">\n" +
-            "                         <a role=\"menuitem\" tabindex=\"-1\" href=\"#\" class=\"private-github-push\">Push to Github</a>\n" +
+            "                         <a role=\"menuitem\" tabindex=\"-1\" class=\"private-github-push\">Push to Github</a>\n" +
             "                      </li>\n" +
             "                      <li role=\"presentation\" id=\"privategithubpull\">\n" +
-            "                         <a role=\"menuitem\" tabindex=\"-1\" href=\"#\" class=\"private-github-pull\">Pull from Github</a>\n" +
+            "                         <a role=\"menuitem\" tabindex=\"-1\" class=\"private-github-pull\">Pull from Github</a>\n" +
             "                      </li>\n" +
             "                  </ul>\n" +
             "                </div>");
