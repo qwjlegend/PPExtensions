@@ -16,6 +16,7 @@ NOTEBOOK_STARTUP_PATH = os.getcwd() + "/"
 LOCAL_REPO_FOLDER = "Sharing"
 LOCAL_REPO_PREFIX = NOTEBOOK_STARTUP_PATH + LOCAL_REPO_FOLDER
 
+
 class PrivateGitHandler(IPythonHandler):
     """
     The base class that has all functions used in private sharing backend handlers.
@@ -204,7 +205,7 @@ class PrivateGitCommitHandler(PrivateGitHandler):
                 self.error_handler("Cannot do partial commit during a merge, please choose commit all notebooks option "
                                    "and push. Notice: this operation will push all other notebooks in this repo!")
             else:
-                err = e.stdout.replace("\n","<br/>")
+                err = e.stdout.replace("\n", "<br/>")
                 self.error_handler(err)
 
 
