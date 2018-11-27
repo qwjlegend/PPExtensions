@@ -8,7 +8,7 @@ A Jupyter extension to productionalize your notebooks by scheduling them to run 
 #### Install Scheduler Extension
 
 ~~~
-cd PPExtension/ppextension/extensions/scheduler
+cd PPExtensions/ppextensions/extensions/scheduler
 jupyter nbextension install static
 jupyter nbextension enable static/scheduler --user --section=tree
 jupyter nbextension enable static/schedulermain --user --section=tree
@@ -17,7 +17,8 @@ jupyter serverextension enable --user ppextensions.extensions.scheduler.schedule
 
 Alternatively, if you want to install all extensions in ppextension module
 ~~~
-bash PPExtension/build/extension_init.sh
+cd PPExternsions
+bash build/extension_init.sh
 ~~~
 
 This command will automatically install all frontend and backend Jupyter extensions we provide.
@@ -61,6 +62,7 @@ export AIRFLOW_METADATA_CONNECTION_STRING='mysql+mysqlconnector://<user name>:<p
 In this tutorial, we are using airflow LocalExecutor, hence airflow worker is not required. But if you are using some other executors like CeleryExecutor, then the airflow worker should also be started. 
 
 ~~~
+airflow initdb
 airflow webserver
 airflow scheduler 
 ~~~
@@ -72,9 +74,11 @@ After everything is settled, source the profile and start Jupyter notebook.
 
 ### (Method 2) Use Docker
 ~~~
-docker run -—name=mysql circleci/mysql 
-docker run --name=demo --link=mysql:db -i -t -e githubtoken=<your github token here> -e githubname=<github user> -e githubemail=<github email> -p 8080:8080 -p 8888:8888 ppextensions 
+docker run --name=mysql circleci/mysql 
+docker run --name=demo --link=mysql:db -i -t -e githubtoken=<your github token here> -e githubname=<github user> -e githubemail=<github email> -p 8080:8080 -p 8888:8888 qwjlegend/ppextensions
 ~~~
+
+The default time zone in docker container in UTC, to make scheduler work correctly based on your timezone, you need to go inside docker container and setup the timezone accordingly.
 
 Then go to `localhost:8888/?token=<jupyter notebook token printed in the command line>` to start using notebook with ppextensions.
 

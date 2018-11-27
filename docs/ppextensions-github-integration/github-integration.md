@@ -8,7 +8,7 @@ A Jupyter extension to integrate notebooks with Github. This extension simplifie
 #### Install Github Extension
 
 ~~~
-cd PPExtension/ppextension/extensions/github
+cd PPExtensions/ppextensions/extensions/github
 jupyter nbextension install static
 jupyter nbextension enable static/github --user --section=tree
 jupyter nbextension enable static/githubmain --user --section=tree
@@ -18,7 +18,8 @@ jupyter serverextension enable --user ppextensions.extensions.github.github
 
 Alternatively, if you want to install all extensions in ppextension module
 ~~~
-bash PPExtension/build/extension_init.sh
+cd PPExtensions
+bash build/extension_init.sh
 ~~~
 
 This command will automatically install all frontend and backend Jupyter extensions we provide.
@@ -46,7 +47,7 @@ Either push to or pull from that repo will create a local workspace in Private S
 
 ### (Method 2) Use Docker
 ~~~
-docker run --name=demo --link=mysql:db -i -t -e githubtoken=<your github token here> -e githubname=<github user> -e githubemail=<github email> -p 8080:8080 -p 8888:8888 ppextensions
+docker run --name=demo --link=mysql:db -i -t -e githubtoken=<your github token here> -e githubname=<github user> -e githubemail=<github email> -p 8080:8080 -p 8888:8888 qwjlegend/ppextensions
 
 ~~~
 

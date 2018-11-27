@@ -71,6 +71,8 @@ class PrivateGitHandler(IPythonHandler):
         if parts[0] == LOCAL_REPO_FOLDER:
             repo_name = parts[1] + "/" + parts[2]
             branch = requests.get(GITHUB_API_PREFIX + '/repos/' + repo_name + '/branches', headers=headers)
+            if branch.status_code == 404:
+                repos[repo_name] = ['Branch Not Found!']
             if len(branch.json()) == 0:
                 repos[repo_name] = ['master']
             else:
@@ -81,6 +83,8 @@ class PrivateGitHandler(IPythonHandler):
             for rp in repo:
                 repo_name = rp['full_name']
                 branch = requests.get(GITHUB_API_PREFIX + '/repos/' + repo_name + '/branches', headers=headers)
+                if branch.status_code == 404:
+                    repos[repo_name] = ['Branch Not Found!']
                 if len(branch.json()) == 0:
                     repos[repo_name] = ['master']
                 else:

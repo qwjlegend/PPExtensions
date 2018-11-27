@@ -44,8 +44,13 @@ define(["jquery",
     var url_get_dag = utils.url_path_join(Jupyter.notebook_list.base_url, "/scheduler/get_dag?base_url=" + Jupyter.notebook_list.base_url);
 
     $("#refresh_schedule_list, .scheduled_jobs").click(function () {
+      window.history.pushState(null, null, "#scheduledjobs");
       $("#schedule_list_placeholder").load(url_get_dag);
     });
+
+    if (window.location.hash == "#scheduledjobs") {
+        $(".scheduled_jobs").click();
+    }
 
     var _selection_changed = Jupyter.notebook_list.__proto__._selection_changed;
 
