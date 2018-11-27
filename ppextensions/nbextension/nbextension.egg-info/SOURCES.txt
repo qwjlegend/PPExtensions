@@ -1,7 +1,0 @@
-extension/github.py
-extension/scheduler.py
-nbextension.egg-info/PKG-INFO
-nbextension.egg-info/SOURCES.txt
-nbextension.egg-info/dependency_links.txt
-nbextension.egg-info/requires.txt
-nbextension.egg-info/top_level.txt
