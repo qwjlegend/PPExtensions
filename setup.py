@@ -18,8 +18,6 @@ VERSION = '0.0.5'
 
 install_requires = [
     'ipython>=1.0',
-    'qgrid',
-    'impyla==0.13.8',
     'hdfs3',
     'teradata==15.10.0.20',
     'protobuf==3.5.2.post1',
@@ -32,11 +30,9 @@ install_requires = [
     'astor',
     'pandas==0.22.0',
     'autovizwidget',
-    'thrift-sasl==0.2.1',
-    'apache-airflow==1.8.2',
     'nbdime',
     'gitpython',
-    'mysql-connector-python-rf'
+    'matplotlib'
 ]
 
 setup(name=NAME,

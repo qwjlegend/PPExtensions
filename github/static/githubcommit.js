@@ -5,10 +5,11 @@ define(["base/js/namespace", "base/js/dialog", "base/js/utils", "jquery"], funct
     icon: "fa-github",
     help_index: "",
     handler: function (env) {
-      var re = /^\/notebooks(.*?)$/;
+      var re = /^\/notebooks\/Sharing\/(.*?)$/;
       var filepath = window.location.pathname.match(re)[1];
-      var repo = filepath.substring(1, filepath.lastIndexOf("/"));
-      var filename = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.length);
+      var comp = filepath.split("/");
+      var repo = [comp[0],comp[1]].join("/")
+      var file = comp.slice(2,).join("/");
       var dialog_body = $("<form id='option'/>")
         .append("<label class=\"radio-inline\"><input type=\"radio\" name=\"optradio\" value='single' checked>Commit this notebook only</label>\n" +
         "<label class=\"radio-inline\"><input type=\"radio\" name=\"optradio\" value='multiple' >Commit all notebooks in this folder</label>");
@@ -22,7 +23,7 @@ define(["base/js/namespace", "base/js/dialog", "base/js/utils", "jquery"], funct
             click: function () {
               var payload = {
                 "repo": repo,
-                "filename": filename,
+                "file": file,
                 "option": $("input[name=optradio]:checked", "#option").val()
               };
               if (repo === "/"){ alert("Please commit inside local repo!"); return; }
