@@ -38,6 +38,9 @@ define(["base/js/namespace", "base/js/dialog", "tree/js/notebooklist", "base/js/
             method: "GET",
             data: {"filepath": selected.path},
             success: function(res) {
+                if (!selected.path.startsWith("Sharing")){
+                    sessionStorage.setItem(url, res); 
+                }
                 res = JSON.parse(res);
                 for (var rp in res) {
                     repo.append(new Option(rp, rp));
@@ -56,7 +59,8 @@ define(["base/js/namespace", "base/js/dialog", "tree/js/notebooklist", "base/js/
             },
         };
         var url = utils.url_path_join(that.base_url, "/github/private_github_get_repo");
-        if (sessionStorage.getItem(url) != null) {
+
+        if (sessionStorage.getItem(url) != null && !selected.path.startsWith("Sharing")) {
             var res = JSON.parse(sessionStorage.getItem(url));
             initializeDropdown(res);
         } else {
