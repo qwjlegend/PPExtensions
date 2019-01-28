@@ -38,6 +38,7 @@ define(["base/js/namespace", "base/js/dialog", "tree/js/notebooklist", "base/js/
             method: "GET",
             data: {"filepath": selected.path},
             success: function(res) {
+                sessionStorage.setItem(url) = res
                 res = JSON.parse(res);
                 for (var rp in res) {
                     repo.append(new Option(rp, rp));
