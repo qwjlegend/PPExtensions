@@ -110,8 +110,3 @@ To edit a job, go to the `Scheduled Jobs` tab, click on `Edit` button in `Action
 To delete a job, go to the `Scheduled Jobs` tab, click on `Remove` button in `Action` column of the target job, the dag/vairable file of the related job as well as the records in the metadata db will be removed. 
 
 
-
-
-
-
-

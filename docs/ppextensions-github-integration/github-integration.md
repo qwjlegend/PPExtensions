@@ -32,6 +32,7 @@ export githubtoken=<Your token here>
 ~~~
 
 Notice if the token is replaced, all local repo will be "unlinked" to remote. 
+
 **Enable git merge driver:**
 To show conflict in notebook, a nbmerge driver from nbdime module should be enabled as well.
 ~~~
