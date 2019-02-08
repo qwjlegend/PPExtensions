@@ -3,6 +3,7 @@ from notebook.base.handlers import IPythonHandler
 from git import Repo, exc, GitCommandError
 from shutil import move
 from urllib.parse import urlparse, unquote
+from ppextensions.extensions.extension_logger.extension_logger import logger
 
 import requests
 import json
@@ -10,7 +11,7 @@ import os
 
 GITHUB_URL_PREFIX = "https://github.com/"
 GITHUB_API_PREFIX = "https://api.github.com"
-GITHUB_TOKEN = os.getenv("githubtoken", "")
+GITHUB_TOKEN = os.getenv('githubtoken', "")
 NOTEBOOK_STARTUP_PATH = os.getcwd() + "/"
 LOCAL_REPO_FOLDER = "Sharing"
 LOCAL_REPO_PREFIX = NOTEBOOK_STARTUP_PATH + LOCAL_REPO_FOLDER
@@ -23,6 +24,7 @@ class PrivateGitHandler(IPythonHandler):
 
     def error_handler(self, err, iserr=True):
         err = err.replace("\n", "<br/>").replace("\t", "  ")
+        logger.error(err)
         if iserr:
             self.set_status(500)
             self.finish(err)
@@ -187,17 +189,17 @@ class PrivateGitCommitHandler(PrivateGitHandler):
     """
 
     def post(self):
-        repo = unquote(self.get_argument("repo"))
-        file = unquote(self.get_argument("file"))
+        repo_name = unquote(self.get_argument("repo"))
+        file_name = unquote(self.get_argument("filename"))
         option = self.get_argument("option")
-        commit_message = "Commit from Notebook"
-        local_repo_path = LOCAL_REPO_PREFIX + "/" + repo
+        commit_message = "Commit from PayPal Notebook"
+        local_repo_path = NOTEBOOK_STARTUP_PATH + repo_name
         try:
             repo_instance = Repo(local_repo_path)
         except exc.InvalidGitRepositoryError as e:
             self.error_handler(str(e))
         try:
-            self.git_commit_inside(file, repo_instance, commit_message, option)
+            self.git_commit_inside(file_name, repo_instance, commit_message, option)
             self.finish("Commit Success!")
         except GitCommandError as e:
             if e.status == 1:

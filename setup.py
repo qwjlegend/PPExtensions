@@ -32,7 +32,7 @@ install_requires = [
     'autovizwidget',
     'nbdime',
     'gitpython',
-    'matplotlib'
+    'apache-airflow==1.8.1'
 ]
 
 setup(name=NAME,

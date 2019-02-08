@@ -5,6 +5,26 @@ A Jupyter extension to productionalize your notebooks by scheduling them to run 
 
 ### (Method 1) Local Environment Setup
 
+#### Install Scheduler Extension
+
+~~~
+cd PPExtensions/ppextensions/extensions/scheduler
+jupyter nbextension install static
+jupyter nbextension enable static/scheduler --user --section=tree
+jupyter nbextension enable static/schedulermain --user --section=tree
+jupyter serverextension enable --user ppextensions.extensions.scheduler.scheduler
+~~~
+
+Alternatively, if you want to install all extensions in ppextension module
+~~~
+cd PPExternsions
+bash build/extension_init.sh
+~~~
+
+This command will automatically install all frontend and backend Jupyter extensions we provide.
+
+Please see pre-requisites below for other necessary configuration.
+
 #### Pre Requisites
 
 **Configure Airflow**
@@ -12,7 +32,7 @@ A Jupyter extension to productionalize your notebooks by scheduling them to run 
 export AIRFLOW_HOME=<path to airflow_home>
 ~~~
 
-Run airflow in command line, a `airflow.cfg` file will be generated in airflow home. Here is a list of parameters which needs to be changed.
+Run airflow in command line, a `airflow.cfg` file will be generated in airflow home. Here are a list of paramenter needs to be changed.
 
 ~~~
 dags_folder = <path to airflow home>/dags
@@ -24,9 +44,9 @@ load_examples = False (recommended)
 
 Create a `dags` and a `variables` folder in airflow home to store the dag files and their related vairable files.
 
-**Setup MySQL Database**
+**Setup MySQL**
 
-Create a database `airflow` in mysql. This serves as the metadata db for airflow.
+Create a database `airflow` in mysql. This servers as the metadata db for airflow.
 
 #### Local Setup
 
@@ -49,22 +69,7 @@ airflow scheduler
 
 By default, the log files will be generated in airflow_home, you can configure that as well. Refer to https://airflow.apache.org/howto/write-logs.html.
 
-#### Install Scheduler Extension
-
-~~~
-pip install ppextensions
-jupyter nbextension install scheduler --user --py 
-jupyter nbextension enable scheduler --user --py
-jupyter serverextension enable scheduler --py --user 
-~~~
-
-Alternatively, if you want to install all extensions from [ppextensions](https://ppextensions.io)
-~~~
-cd PPExtensions
-bash build/extension_init.sh
-~~~
-
-This command will automatically install all github and scheduler extensions.
+After everything is settled, source the profile and start Jupyter notebook. 
 
 
 ### (Method 2) Use Docker
@@ -79,7 +84,7 @@ Then go to `localhost:8888/?token=<jupyter notebook token printed in the command
 
 ### Schedule Notebook
 
-To schedule a notebook, first select a notebook, click on the `schedule` button appeared in the dynamic tool bar, a scheduler menu will pop up. 
+To schedule a notebook, first select a notebook, click on the `schedule` button apeared in the dynamic tool bar, a scheduler menu will pop up. 
 
 Currently scheduler extension provides the following configurable dag parameters:
 
